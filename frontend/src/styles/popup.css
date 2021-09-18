@@ -1,0 +1,54 @@
+.popup-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.popup-window {
+    position: relative;
+    padding: 32px;
+    width: fit-content;
+    background-color: rgb(244, 235, 144);
+    border-radius: 10px;
+    border: solid;
+    border-width: thin;
+}
+
+.popup-window .text {
+    font-family: Bradley Hand, cursive, sans-serif;
+    font-size: 20px;
+}
+
+.popup-window .btns {
+    position: relative;
+    margin-left: 33%;
+    width: max-content;
+    margin-top: 0.35cm;
+}
+
+.popup-window .btn {
+    background: transparent;
+    border: 1px solid rgb(0, 0, 0);
+    height: 35px;
+    font-family: Bradley Hand, cursive, sans-serif;
+    font-size: 20px;
+    background-image: url("../images/pencil-scribble-texture.jpg");
+    background-size: cover;
+    color: rgb(244, 235, 144);
+    border-radius: 10px;
+}
+
+.popup-window .btns .yes-btn {
+    margin-right: 0.5cm;
+}
+
+.popup-window .btns .cancel-btn {
+}

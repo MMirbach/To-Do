@@ -1,0 +1,80 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    height: 145px;
+    width: 100%;
+    z-index: 0;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.navbar .text-box {
+    background: transparent;
+    border: 1px solid rgb(0, 0, 0);
+    height: 44px;
+    width: 200px;
+    margin: 0;
+    border-radius: 10px 0px 0px 10px;
+    font-family: Bradley Hand, cursive, sans-serif;
+    font-size: 20px;
+    text-indent: 5px;
+}
+
+.navbar .text-box:focus {
+    outline: none;
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.navbar .text-box:hover {
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.navbar .btn {
+    background: transparent;
+    border: 1px solid rgb(0, 0, 0);
+    height: 48px;
+    font-family: Bradley Hand, cursive, sans-serif;
+    font-size: 20px;
+    background-image: url("../images/pencil-scribble-texture.jpg");
+    background-size: cover;
+    color: rgb(244, 235, 144);
+}
+
+.navbar .btn:disabled {
+    color: rgb(59, 56, 56);
+}
+
+.navbar .add-btn {
+    border-radius: 0px 10px 10px 0px;
+}
+
+.navbar .add-btn:focus {
+    outline: none;
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.navbar .add-btn:hover {
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.navbar .not-add-btn {
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 4.2cm;
+}
+
+.navbar .not-add-btn:focus {
+    outline: none;
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.navbar .not-add-btn:hover {
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.navbar .not-add-btn:disabled {
+    box-shadow: none;
+}

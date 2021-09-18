@@ -1,0 +1,13 @@
+.list {
+    list-style-type: none;
+    position: relative;
+    top: 132px;
+    margin-left: 5.5cm;
+    line-height: 1.1cm;
+    width: 100%;
+}
+
+.list-item {
+    position: relative;
+    width: 100%;
+}
