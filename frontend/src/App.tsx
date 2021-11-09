@@ -20,7 +20,7 @@ class App extends React.Component {
     };
 
     componentDidMount = () => {
-        Axios.post("http://localhost:3001/api/get").then(response => {
+        Axios.get("http://localhost:3001/api/get").then(response => {
             this.setState({ tasks: response.data });
         });
     };
@@ -36,7 +36,7 @@ class App extends React.Component {
         this.setState({ currentText });
     };
 
-    handleAdd = (): void => {
+    handleAdd = async () => {
         if (this.state.currentText) {
             const tasks = [...this.state.tasks];
             const newTask: TaskTemplate = {
@@ -45,7 +45,7 @@ class App extends React.Component {
                 checked: false,
             };
             tasks.push(newTask);
-            Axios.post("http://localhost:3001/api/add", newTask);
+            await Axios.post("http://localhost:3001/api/add", newTask);
             this.setState({ tasks: tasks, currentText: "" });
         }
     };
@@ -56,12 +56,12 @@ class App extends React.Component {
         });
     };
 
-    reset = (): void => {
+    reset = async () => {
         const tasks = [...this.state.tasks];
         tasks.forEach(t => {
             t.checked = false;
         });
-        Axios.post("http://localhost:3001/api/reset");
+        await Axios.put("http://localhost:3001/api/reset");
         this.setState({ tasks: tasks, popup: messages.none });
     };
 
@@ -71,9 +71,9 @@ class App extends React.Component {
         });
     };
 
-    deleteDone = (): void => {
+    deleteDone = async () => {
         const tasks = this.state.tasks.filter(t => !t.checked);
-        Axios.post("http://localhost:3001/api/deleteDone");
+        await Axios.delete("http://localhost:3001/api/deleteDone");
         this.setState({ tasks: tasks, popup: messages.none });
     };
 
@@ -83,23 +83,23 @@ class App extends React.Component {
         });
     };
 
-    clear = () => {
-        Axios.post("http://localhost:3001/api/clear");
+    clear = async () => {
+        await Axios.delete("http://localhost:3001/api/clear");
         this.setState({ tasks: [], popup: messages.none });
     };
 
-    handleDelete = (id: number): void => {
+    handleDelete = async (id: number) => {
         const tasks = this.state.tasks.filter(t => t.id !== id);
-        Axios.post("http://localhost:3001/api/delete", { id: id });
+        await Axios.delete("http://localhost:3001/api/delete", { id: id });
         this.setState({ tasks });
     };
 
-    handleToggle = (id: number): void => {
+    handleToggle = async (id: number) => {
         const tasks = [...this.state.tasks];
         tasks.forEach(t => {
             if (t.id === id) t.checked = !t.checked;
         });
-        Axios.post("http://localhost:3001/api/toggle", { id: id });
+        await Axios.put("http://localhost:3001/api/toggle", { id: id });
         this.setState({ tasks });
     };
 
