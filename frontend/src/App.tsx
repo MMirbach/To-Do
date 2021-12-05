@@ -9,21 +9,27 @@ import Login from "./components/login";
 //
 interface AppState {
     tasks: TaskTemplate[];
+    currentUser: string;
     popup: messages;
-    login: boolean;
+    loggedIn: boolean;
 }
 
 class App extends React.Component {
     state: AppState = {
         tasks: [],
+        currentUser: "",
         popup: messages.none,
-        login: true,
+        loggedIn: true,
     };
 
-    componentDidMount = () => {
-        Axios.get("http://localhost:3001/api/get").then(response => {
-            this.setState({ tasks: response.data });
-        });
+    componentDidMount = async () => {
+        //localStorage.clear();
+        const username = localStorage.getItem("user");
+        if (username === null) {
+            this.setState({ loggedIn: false });
+        } else {
+            this.updateCurrentUser(username);
+        }
     };
 
     maxId = (): number => {
@@ -42,7 +48,10 @@ class App extends React.Component {
                 checked: false,
             };
             tasks.push(newTask);
-            await Axios.post("http://localhost:3001/api/add", newTask);
+            await Axios.post("http://localhost:3001/api/add", {
+                task: newTask,
+                username: this.state.currentUser,
+            });
             this.setState({ tasks });
         }
     };
@@ -58,7 +67,9 @@ class App extends React.Component {
         tasks.forEach(t => {
             t.checked = false;
         });
-        await Axios.put("http://localhost:3001/api/reset");
+        await Axios.put("http://localhost:3001/api/reset", {
+            username: this.state.currentUser,
+        });
         this.setState({ tasks: tasks, popup: messages.none });
     };
 
@@ -70,7 +81,9 @@ class App extends React.Component {
 
     deleteDone = async () => {
         const tasks = this.state.tasks.filter(t => !t.checked);
-        await Axios.delete("http://localhost:3001/api/deleteDone");
+        await Axios.delete("http://localhost:3001/api/deleteDone", {
+            data: { username: this.state.currentUser },
+        });
         this.setState({ tasks: tasks, popup: messages.none });
     };
 
@@ -81,7 +94,9 @@ class App extends React.Component {
     };
 
     clear = async () => {
-        await Axios.delete("http://localhost:3001/api/clear");
+        await Axios.delete("http://localhost:3001/api/clear", {
+            data: { username: this.state.currentUser },
+        });
         this.setState({ tasks: [], popup: messages.none });
     };
 
@@ -117,20 +132,56 @@ class App extends React.Component {
             case messages.clear:
                 this.clear();
                 break;
+            case messages.logout:
+                this.logout();
+                break;
         }
+    };
+
+    updateCurrentUser = async (username: string) => {
+        await Axios.get("http://localhost:3001/api/get", {
+            params: { username: username },
+        }).then(response => {
+            this.setState({
+                tasks: response.data,
+                currentUser: username,
+                loggedIn: true,
+            });
+        });
+    };
+
+    handleLogout = (): void => {
+        this.setState({
+            popup: messages.logout,
+        });
+    };
+
+    logout = (): void => {
+        localStorage.clear();
+        this.setState({
+            tasks: [],
+            currentUser: "",
+            popup: messages.none,
+            loggedIn: false,
+        });
     };
 
     render() {
         return (
             <div className="app">
-                <Login show={this.state.login}></Login>
+                <Login
+                    show={!this.state.loggedIn}
+                    onLogin={this.updateCurrentUser}
+                ></Login>
                 <Popup
                     type={this.state.popup}
                     onCancel={this.handlePopupCancle}
                     onYes={this.handleYes}
                 ></Popup>
                 <NavBar
-                    inactive={this.state.popup.length > 0 || this.state.login}
+                    inactive={
+                        this.state.popup.length > 0 || !this.state.loggedIn
+                    }
                     numTasks={this.state.tasks.length}
                     numDoneTasks={
                         this.state.tasks.filter(t => t.checked).length
@@ -139,6 +190,7 @@ class App extends React.Component {
                     onReset={this.handleReset}
                     onDeleteDone={this.handleDeleteDone}
                     onClear={this.handleClear}
+                    onLogout={this.handleLogout}
                 />
                 <Tasks
                     tasks={this.state.tasks}

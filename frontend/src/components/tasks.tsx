@@ -15,7 +15,7 @@ class Tasks extends React.Component<TasksProps> {
                 {this.props.tasks.map(t => (
                     <li key={t.id} className="list-item">
                         <Task
-                            //key={t.id} possiblt neccessery
+                            //key={t.id} possibly neccessery
                             task={t}
                             onToggle={this.props.onToggle}
                             onDelete={this.props.onDelete}

@@ -5,6 +5,7 @@ export enum messages {
     reset = "Are you sure you want to uncheck all tasks?",
     deleteDone = "Are you sure you want to delete all checked tasks?",
     clear = "Are you sure you want to delete all tasks?",
+    logout = "Are you sure you want to logout?",
     none = "",
 }
 

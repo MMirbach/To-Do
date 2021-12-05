@@ -9,6 +9,7 @@ interface NavBarProps {
     onReset: () => void;
     onDeleteDone: () => void;
     onClear: () => void;
+    onLogout: () => void;
 }
 
 interface NavbarState {
@@ -55,23 +56,30 @@ class NavBar extends React.Component<NavBarProps> {
                 <button
                     className="btn not-add-btn"
                     onClick={this.props.onReset}
-                    disabled={!this.props.numDoneTasks || !this.props.inactive}
+                    disabled={!this.props.numDoneTasks || this.props.inactive}
                 >
                     Reset Checked
                 </button>
                 <button
                     className="btn not-add-btn"
                     onClick={this.props.onDeleteDone}
-                    disabled={!this.props.numDoneTasks || !this.props.inactive}
+                    disabled={!this.props.numDoneTasks || this.props.inactive}
                 >
                     Delete Done
                 </button>
                 <button
                     className="btn not-add-btn"
                     onClick={this.props.onClear}
-                    disabled={!this.props.numTasks || !this.props.inactive}
+                    disabled={!this.props.numTasks || this.props.inactive}
                 >
                     Clear
+                </button>
+                <button
+                    className="btn not-add-btn"
+                    onClick={this.props.onLogout}
+                    disabled={this.props.inactive}
+                >
+                    Log Out
                 </button>
             </nav>
         );
