@@ -27,10 +27,7 @@ class Popup extends React.Component<PopupProps> {
                         >
                             Yes
                         </button>
-                        <button
-                            className="btn cancel-btn"
-                            onClick={this.props.onCancel}
-                        >
+                        <button className="btn" onClick={this.props.onCancel}>
                             Cancel
                         </button>
                     </div>

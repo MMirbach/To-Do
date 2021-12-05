@@ -5,18 +5,19 @@ import { TaskTemplate } from "./components/task";
 import Tasks from "./components/tasks";
 import NavBar from "./components/navbar";
 import Popup, { messages } from "./components/popup";
+import Login from "./components/login";
 //
 interface AppState {
     tasks: TaskTemplate[];
-    currentText: string;
     popup: messages;
+    login: boolean;
 }
 
 class App extends React.Component {
     state: AppState = {
         tasks: [],
-        currentText: "",
         popup: messages.none,
+        login: true,
     };
 
     componentDidMount = () => {
@@ -32,21 +33,17 @@ class App extends React.Component {
         );
     };
 
-    handleText = (currentText: string): void => {
-        this.setState({ currentText });
-    };
-
-    handleAdd = async () => {
-        if (this.state.currentText) {
+    handleAdd = async (text: string) => {
+        if (text) {
             const tasks = [...this.state.tasks];
             const newTask: TaskTemplate = {
                 id: this.maxId() + 1,
-                description: this.state.currentText,
+                description: text,
                 checked: false,
             };
             tasks.push(newTask);
             await Axios.post("http://localhost:3001/api/add", newTask);
-            this.setState({ tasks: tasks, currentText: "" });
+            this.setState({ tasks });
         }
     };
 
@@ -90,7 +87,9 @@ class App extends React.Component {
 
     handleDelete = async (id: number) => {
         const tasks = this.state.tasks.filter(t => t.id !== id);
-        await Axios.delete("http://localhost:3001/api/delete", { id: id });
+        await Axios.delete("http://localhost:3001/api/delete", {
+            data: { id: id },
+        });
         this.setState({ tasks });
     };
 
@@ -124,18 +123,18 @@ class App extends React.Component {
     render() {
         return (
             <div className="app">
+                <Login show={this.state.login}></Login>
                 <Popup
                     type={this.state.popup}
                     onCancel={this.handlePopupCancle}
                     onYes={this.handleYes}
                 ></Popup>
                 <NavBar
-                    value={this.state.currentText}
+                    inactive={this.state.popup.length > 0 || this.state.login}
                     numTasks={this.state.tasks.length}
                     numDoneTasks={
                         this.state.tasks.filter(t => t.checked).length
                     }
-                    onText={this.handleText}
                     onAdd={this.handleAdd}
                     onReset={this.handleReset}
                     onDeleteDone={this.handleDeleteDone}

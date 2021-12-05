@@ -2,17 +2,33 @@ import React from "react";
 import "../styles/navbar.css";
 
 interface NavBarProps {
-    value: string;
+    inactive: boolean;
     numTasks: number;
     numDoneTasks: number;
-    onText: (letter: string) => void;
-    onAdd: () => void;
+    onAdd: (text: string) => void;
     onReset: () => void;
     onDeleteDone: () => void;
     onClear: () => void;
 }
 
+interface NavbarState {
+    text: string;
+}
+
 class NavBar extends React.Component<NavBarProps> {
+    state: NavbarState = {
+        text: "",
+    };
+
+    handleText = (text: string): void => {
+        this.setState({ text });
+    };
+
+    handleAdd = (text: string): void => {
+        this.setState({ text: "" });
+        this.props.onAdd(text);
+    };
+
     render() {
         return (
             <nav className="navbar">
@@ -22,33 +38,38 @@ class NavBar extends React.Component<NavBarProps> {
                     autoFocus={true}
                     type="text"
                     maxLength={100}
-                    value={this.props.value}
-                    onChange={l => this.props.onText(l.target.value)}
+                    disabled={this.props.inactive}
+                    value={this.state.text}
+                    onChange={l => this.handleText(l.target.value)}
                     onKeyPress={k => {
-                        if (k.key === "Enter") this.props.onAdd();
+                        if (k.key === "Enter") this.handleAdd(this.state.text);
                     }}
                 />
-                <button className="btn add-btn" onClick={this.props.onAdd}>
+                <button
+                    className="btn add-btn"
+                    disabled={this.props.inactive}
+                    onClick={() => this.handleAdd(this.state.text)}
+                >
                     Add
                 </button>
                 <button
                     className="btn not-add-btn"
                     onClick={this.props.onReset}
-                    disabled={!this.props.numDoneTasks}
+                    disabled={!this.props.numDoneTasks || !this.props.inactive}
                 >
                     Reset Checked
                 </button>
                 <button
                     className="btn not-add-btn"
                     onClick={this.props.onDeleteDone}
-                    disabled={!this.props.numDoneTasks}
+                    disabled={!this.props.numDoneTasks || !this.props.inactive}
                 >
                     Delete Done
                 </button>
                 <button
                     className="btn not-add-btn"
                     onClick={this.props.onClear}
-                    disabled={!this.props.numTasks}
+                    disabled={!this.props.numTasks || !this.props.inactive}
                 >
                     Clear
                 </button>
