@@ -34,7 +34,7 @@
     margin-top: 0.35cm;
 }
 
-.popup-window .btn {
+.popup-window .btns .btn {
     background: transparent;
     border: 1px solid rgb(0, 0, 0);
     height: 35px;
@@ -44,6 +44,15 @@
     background-size: cover;
     color: rgb(244, 235, 144);
     border-radius: 10px;
+}
+
+.popup-window .btns .btn:focus {
+    outline: none;
+    box-shadow: 1px 1px 5px -1px black, -1px -1px 5px -1px black;
+}
+
+.popup-window .btns .btn:hover {
+    box-shadow: 1px 1px 5px -1px black, -1px -1px 5px -1px black;
 }
 
 .popup-window .btns .yes-btn {

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { Pool } = require("pg");
 const cors = require("cors");
+const coder = require("../frontend/src/coder.jsx");
 
 const db = new Pool({
     user: "MJ",
@@ -111,7 +112,7 @@ app.get("/api/login", (req, res) => {
         if (!err) res.send(result.rowCount > 0);
         else {
             console.log(err.message + " error code: " + err.code);
-            res.send(false);
+            res.send();
         }
     });
 });

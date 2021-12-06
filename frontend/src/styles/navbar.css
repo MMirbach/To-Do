@@ -1,14 +1,16 @@
+.header {
+    z-index: 1;
+    height: 145px;
+    background: transparent;
+}
+
 .navbar {
     position: fixed;
-    top: 0;
-    height: 145px;
+    top: 1cm;
     width: 100%;
-    z-index: 0;
-    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
 }
 
 .navbar .text-box {
@@ -32,7 +34,7 @@
     box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
 }
 
-.navbar .btn {
+.btn {
     background: transparent;
     border: 1px solid rgb(0, 0, 0);
     height: 48px;
@@ -43,7 +45,7 @@
     color: rgb(244, 235, 144);
 }
 
-.navbar .btn:disabled {
+.btn:disabled {
     color: rgb(59, 56, 56);
 }
 
@@ -76,5 +78,34 @@
 }
 
 .navbar .not-add-btn:disabled {
+    box-shadow: none;
+}
+
+.logout-div {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: right;
+}
+
+.logout-btn {
+    border-radius: 10px;
+    margin: 15px;
+    width: 2.5cm;
+    height: 1cm;
+}
+
+.logout-btn:focus {
+    outline: none;
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.logout-btn:hover {
+    box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
+}
+
+.logout-btn:disabled {
     box-shadow: none;
 }

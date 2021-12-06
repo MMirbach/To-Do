@@ -21,6 +21,15 @@
     text-indent: 5px;
 }
 
+.inputs .text-box:focus {
+    outline: none;
+    box-shadow: 1px 1px 5px -1px black, -1px -1px 5px -1px black;
+}
+
+.inputs .text-box:hover {
+    box-shadow: 1px 1px 5px -1px black, -1px -1px 5px -1px black;
+}
+
 .popup-window .btns .login-btn {
     margin-right: 0.5cm;
 }

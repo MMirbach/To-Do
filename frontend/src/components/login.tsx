@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import "../styles/login.css";
 import "../styles/popup.css";
-
+const coder = require("../coder");
 enum warnings {
     wrong = "* Your username or password were incorrect",
     exists = "* That username is already taken, please try another one",
@@ -50,11 +50,9 @@ class Login extends React.Component<LoginProps> {
         if (response.data) {
             localStorage.setItem("user", this.state.username);
             this.props.onLogin(this.state.username);
-        } else if (response.data === false) {
-            warning = warnings.wrong;
-        } else {
-            warning = warnings.unknown;
-        }
+        } else if (response.data === false) warning = warnings.wrong;
+        else warning = warnings.unknown;
+
         this.setState({ username: "", password: "", error: warning });
     };
 
@@ -93,7 +91,7 @@ class Login extends React.Component<LoginProps> {
                             placeholder="Username"
                             autoFocus={true}
                             type="text"
-                            maxLength={100}
+                            maxLength={25}
                             value={this.state.username}
                             onChange={l =>
                                 this.handleTextUsername(l.target.value)
@@ -103,7 +101,7 @@ class Login extends React.Component<LoginProps> {
                             className="text-box"
                             placeholder="Password"
                             type="password"
-                            maxLength={100}
+                            maxLength={25}
                             value={this.state.password}
                             onChange={l =>
                                 this.handleTextPassword(l.target.value)

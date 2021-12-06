@@ -25,11 +25,8 @@ class App extends React.Component {
     componentDidMount = async () => {
         //localStorage.clear();
         const username = localStorage.getItem("user");
-        if (username === null) {
-            this.setState({ loggedIn: false });
-        } else {
-            this.updateCurrentUser(username);
-        }
+        if (username === null) this.setState({ loggedIn: false });
+        else this.updateCurrentUser(username);
     };
 
     maxId = (): number => {
