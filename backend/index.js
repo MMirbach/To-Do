@@ -5,7 +5,7 @@ const cors = require("cors");
 const coder = require("../frontend/src/coder.jsx");
 
 const db = new Pool({
-    user: "MJ",
+    user: "postgres",
     host: "localhost",
     database: "to_do",
     password: "Pogo97531",
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(3001, () => {});
+app.listen(443, () => {});
 
 app.get("/api/get", (req, res) => {
     const decoded = coder.decode(req.query);

@@ -44,7 +44,7 @@ class Login extends React.Component<LoginProps> {
             password: this.state.password,
         };
 
-        const response = await axios.get("http://localhost:3001/api/login", {
+        const response = await axios.get("http://10.10.37.10:443/api/login", {
             params: coder.encode(user),
         });
 
@@ -77,7 +77,7 @@ class Login extends React.Component<LoginProps> {
         };
 
         const response = await axios.post(
-            "http://localhost:3001/api/signup",
+            "http://10.10.37.10:443/api/signup",
             coder.encode(user)
         );
 
