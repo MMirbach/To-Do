@@ -1,12 +1,12 @@
 const crypto = require("crypto-js");
 
-const encode = base => {
+const encodeString = base => {
     return crypto.AES.encrypt(base, "matanreut").toString();
     //return Buffer.from(base).toString("base64");
 };
 
-const decode = decoded => {
-    return crypto.AES.decrypt(decoded, "matanreut").toString(crypto.enc.Utf8);
+const decodeString = encoded => {
+    return crypto.AES.decrypt(encoded, "matanreut").toString(crypto.enc.Utf8);
     //return Buffer.from(decoded, "base64").toString("ascii");
 };
 
@@ -18,9 +18,9 @@ const encodeObject = base => {
     return obj;
 };
 
-const decodeObject = decoded => {
+const decodeObject = encoded => {
     let obj = {};
-    for (let [key, value] of Object.entries(decoded)) {
+    for (let [key, value] of Object.entries(encoded)) {
         obj[decode(key)] = decode(value);
     }
     return obj;
@@ -29,24 +29,36 @@ const decodeObject = decoded => {
 const encodeArray = base => {
     let arr = [];
     base.forEach(element => {
-        arr.push(encodeObject(element));
+        arr.push(encode(element));
     });
     return arr;
 };
 
-const decodeArray = decoded => {
+const decodeArray = encoded => {
     let arr = [];
-    decoded.forEach(element => {
-        arr.push(decodeObject(element));
+    encoded.forEach(element => {
+        arr.push(decode(element));
     });
     return arr;
+};
+
+const encode = base => {
+    if (Array.isArray(base)) return encodeArray(base);
+    if (typeof base === "string") return encodeString(base);
+    if (typeof base === "object") return encodeObject(base);
+
+    return base;
+};
+
+const decode = encoded => {
+    if (Array.isArray(encoded)) return decodeArray(encoded);
+    if (typeof encoded === "object") return decodeObject(encoded);
+    if (typeof encoded === "string") return decodeString(encoded);
+
+    return encoded;
 };
 
 module.exports = {
     encode,
     decode,
-    encodeObject,
-    decodeObject,
-    encodeArray,
-    decodeArray,
 };

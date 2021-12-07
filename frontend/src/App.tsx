@@ -6,7 +6,9 @@ import Tasks from "./components/tasks";
 import NavBar from "./components/navbar";
 import Popup, { messages } from "./components/popup";
 import Login from "./components/login";
-//
+
+const coder = require("./coder");
+
 interface AppState {
     tasks: TaskTemplate[];
     currentUser: string;
@@ -26,7 +28,7 @@ class App extends React.Component {
         //localStorage.clear();
         const username = localStorage.getItem("user");
         if (username === null) this.setState({ loggedIn: false });
-        else this.updateCurrentUser(username);
+        else this.updateCurrentUser(coder.decode(username));
     };
 
     maxId = (): number => {
@@ -45,10 +47,13 @@ class App extends React.Component {
                 checked: false,
             };
             tasks.push(newTask);
-            await Axios.post("http://localhost:3001/api/add", {
-                task: newTask,
-                username: this.state.currentUser,
-            });
+            await Axios.post(
+                "http://localhost:3001/api/add",
+                coder.encode({
+                    task: newTask,
+                    username: this.state.currentUser,
+                })
+            );
             this.setState({ tasks });
         }
     };
@@ -64,9 +69,12 @@ class App extends React.Component {
         tasks.forEach(t => {
             t.checked = false;
         });
-        await Axios.put("http://localhost:3001/api/reset", {
-            username: this.state.currentUser,
-        });
+        await Axios.put(
+            "http://localhost:3001/api/reset",
+            coder.encode({
+                username: this.state.currentUser,
+            })
+        );
         this.setState({ tasks: tasks, popup: messages.none });
     };
 
@@ -79,7 +87,7 @@ class App extends React.Component {
     deleteDone = async () => {
         const tasks = this.state.tasks.filter(t => !t.checked);
         await Axios.delete("http://localhost:3001/api/deleteDone", {
-            data: { username: this.state.currentUser },
+            data: coder.encode({ username: this.state.currentUser }),
         });
         this.setState({ tasks: tasks, popup: messages.none });
     };
@@ -92,7 +100,7 @@ class App extends React.Component {
 
     clear = async () => {
         await Axios.delete("http://localhost:3001/api/clear", {
-            data: { username: this.state.currentUser },
+            data: coder.encode({ username: this.state.currentUser }),
         });
         this.setState({ tasks: [], popup: messages.none });
     };
@@ -100,7 +108,7 @@ class App extends React.Component {
     handleDelete = async (id: number) => {
         const tasks = this.state.tasks.filter(t => t.id !== id);
         await Axios.delete("http://localhost:3001/api/delete", {
-            data: { id: id },
+            data: coder.encode({ id: id }),
         });
         this.setState({ tasks });
     };
@@ -110,7 +118,10 @@ class App extends React.Component {
         tasks.forEach(t => {
             if (t.id === id) t.checked = !t.checked;
         });
-        await Axios.put("http://localhost:3001/api/toggle", { id: id });
+        await Axios.put(
+            "http://localhost:3001/api/toggle",
+            coder.encode({ id: id })
+        );
         this.setState({ tasks });
     };
 
@@ -137,10 +148,10 @@ class App extends React.Component {
 
     updateCurrentUser = async (username: string) => {
         await Axios.get("http://localhost:3001/api/get", {
-            params: { username: username },
+            params: coder.encode({ username: username }),
         }).then(response => {
             this.setState({
-                tasks: response.data,
+                tasks: coder.decode(response.data),
                 currentUser: username,
                 loggedIn: true,
             });

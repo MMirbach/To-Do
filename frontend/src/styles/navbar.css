@@ -83,8 +83,10 @@
 
 .logout-div {
     position: fixed;
+    right: 0cm;
     top: 0;
-    width: 100%;
+    width: 2.5cm;
+    margin: 15px;
     display: flex;
     justify-content: right;
     align-items: right;
@@ -92,7 +94,6 @@
 
 .logout-btn {
     border-radius: 10px;
-    margin: 15px;
     width: 2.5cm;
     height: 1cm;
 }

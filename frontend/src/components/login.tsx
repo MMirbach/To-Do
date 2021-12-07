@@ -3,10 +3,12 @@ import axios from "axios";
 import "../styles/login.css";
 import "../styles/popup.css";
 const coder = require("../coder");
+
 enum warnings {
     wrong = "* Your username or password were incorrect",
     exists = "* That username is already taken, please try another one",
     unknown = "* Some unknown error occured, please try again",
+    empty = "* Your username and password cannot be empty, try something else",
     none = "",
 }
 
@@ -43,12 +45,12 @@ class Login extends React.Component<LoginProps> {
         };
 
         const response = await axios.get("http://localhost:3001/api/login", {
-            params: user,
+            params: coder.encode(user),
         });
 
         let warning = warnings.none;
         if (response.data) {
-            localStorage.setItem("user", this.state.username);
+            localStorage.setItem("user", coder.encode(this.state.username));
             this.props.onLogin(this.state.username);
         } else if (response.data === false) warning = warnings.wrong;
         else warning = warnings.unknown;
@@ -57,6 +59,17 @@ class Login extends React.Component<LoginProps> {
     };
 
     handleSignUp = async () => {
+        if (
+            this.state.username.length === 0 ||
+            this.state.password.length === 0
+        ) {
+            this.setState({
+                username: "",
+                password: "",
+                error: warnings.empty,
+            });
+        }
+
         let warning = warnings.none;
         const user = {
             username: this.state.username,
@@ -65,7 +78,7 @@ class Login extends React.Component<LoginProps> {
 
         const response = await axios.post(
             "http://localhost:3001/api/signup",
-            user
+            coder.encode(user)
         );
 
         if (response.data) {
