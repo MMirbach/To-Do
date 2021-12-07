@@ -7,7 +7,7 @@ const coder = require("../frontend/src/coder.jsx");
 const db = new Pool({
     user: "MJ",
     host: "localhost",
-    database: "to-do",
+    database: "to_do",
     password: "Pogo97531",
     port: 5432,
 });
@@ -20,7 +20,6 @@ app.listen(3001, () => {});
 
 app.get("/api/get", (req, res) => {
     const decoded = coder.decode(req.query);
-    console.log(decoded);
 
     const sqlSelect = "select * from tasks where username = $1 order by id;";
     values = [decoded.username];
