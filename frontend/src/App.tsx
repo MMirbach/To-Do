@@ -48,7 +48,7 @@ class App extends React.Component {
             };
             tasks.push(newTask);
             await Axios.post(
-                "http://10.10.37.10:443/api/add",
+                "http://132.69.8.12:443/api/add",
                 coder.encode({
                     task: newTask,
                     username: this.state.currentUser,
@@ -70,7 +70,7 @@ class App extends React.Component {
             t.checked = false;
         });
         await Axios.put(
-            "http://10.10.37.10:443/api/reset",
+            "http://132.69.8.12:443/api/reset",
             coder.encode({
                 username: this.state.currentUser,
             })
@@ -86,7 +86,7 @@ class App extends React.Component {
 
     deleteDone = async () => {
         const tasks = this.state.tasks.filter(t => !t.checked);
-        await Axios.delete("http://10.10.37.10:443/api/deleteDone", {
+        await Axios.delete("http://132.69.8.12:443/api/deleteDone", {
             data: coder.encode({ username: this.state.currentUser }),
         });
         this.setState({ tasks: tasks, popup: messages.none });
@@ -99,7 +99,7 @@ class App extends React.Component {
     };
 
     clear = async () => {
-        await Axios.delete("http://10.10.37.10:443/api/clear", {
+        await Axios.delete("http://132.69.8.12:443/api/clear", {
             data: coder.encode({ username: this.state.currentUser }),
         });
         this.setState({ tasks: [], popup: messages.none });
@@ -107,7 +107,7 @@ class App extends React.Component {
 
     handleDelete = async (id: number) => {
         const tasks = this.state.tasks.filter(t => t.id !== id);
-        await Axios.delete("http://10.10.37.10:443/api/delete", {
+        await Axios.delete("http://132.69.8.12:443/api/delete", {
             data: coder.encode({ id: id }),
         });
         this.setState({ tasks });
@@ -119,7 +119,7 @@ class App extends React.Component {
             if (t.id === id) t.checked = !t.checked;
         });
         await Axios.put(
-            "http://10.10.37.10:443/api/toggle",
+            "http://132.69.8.12:443/api/toggle",
             coder.encode({ id: id })
         );
         this.setState({ tasks });
@@ -147,7 +147,7 @@ class App extends React.Component {
     };
 
     updateCurrentUser = async (username: string) => {
-        await Axios.get("http://10.10.37.10:443/api/get", {
+        await Axios.get("http://132.69.8.12:443/api/get", {
             params: coder.encode({ username: username }),
         }).then(response => {
             this.setState({

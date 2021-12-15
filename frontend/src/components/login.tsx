@@ -77,7 +77,7 @@ class Login extends React.Component<LoginProps> {
         };
 
         const response = await axios.post(
-            "http://10.10.37.10:443/api/signup",
+            "http://132.69.8.12:443/api/signup",
             coder.encode(user)
         );
 
