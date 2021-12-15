@@ -44,7 +44,7 @@ class Login extends React.Component<LoginProps> {
             password: this.state.password,
         };
 
-        const response = await axios.get("http://10.10.37.10:443/api/login", {
+        const response = await axios.get("http://132.69.8.12:443/api/login", {
             params: coder.encode(user),
         });
 
