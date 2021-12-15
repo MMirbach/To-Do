@@ -58,7 +58,5 @@ const decode = encoded => {
     return encoded;
 };
 
-module.exports = {
-    encode,
-    decode,
-};
+exports.encode = encode;
+exports.decode = decode;
