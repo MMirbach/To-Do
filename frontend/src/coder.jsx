@@ -58,7 +58,4 @@ const decode = encoded => {
     return encoded;
 };
 
-module.exports = {
-    encode,
-    decode,
-};
+export default { encode, decode };
