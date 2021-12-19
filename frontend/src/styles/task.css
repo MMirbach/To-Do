@@ -5,7 +5,7 @@
 }
 
 .task .check-box-wrapper {
-    margin-left: 1.8cm;
+    margin-left: 30px;
     height: 0.3cm;
     width: 0.3cm;
     display: flex;
@@ -43,6 +43,6 @@
 }
 
 .task .delete-btn .bin {
-    height: 0.7cm;
-    width: 0.7cm;
+    height: 0.8cm;
+    width: 0.8cm;
 }

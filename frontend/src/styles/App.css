@@ -18,7 +18,7 @@ body {
     background-image: url("../images/row.png");
     background-repeat: repeat;
     top: 20%;
-    height: 80%;
+    min-height: 80%;
     width: 100%;
     position: absolute;
 }
