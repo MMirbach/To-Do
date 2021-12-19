@@ -48,11 +48,22 @@ class NavBar extends React.Component<NavBarProps> {
     };
 
     render() {
-        if (this.state.windowWidth <= 750)
+        if (this.state.windowWidth <= 950)
             return (
                 <nav className="header">
-                    <div className="navbar">
+                    <div className="navbar mobile">
+                        <button
+                            onClick={this.handleToggleMenu}
+                            className="btn not-add-btn menu-btn"
+                        >
+                            ...
+                        </button>
                         <input
+                            style={
+                                this.state.windowWidth <= 340
+                                    ? { maxWidth: "50%" }
+                                    : {}
+                            }
                             className="text-box"
                             placeholder="Add Task"
                             autoFocus={true}
@@ -72,12 +83,6 @@ class NavBar extends React.Component<NavBarProps> {
                             onClick={() => this.handleAdd(this.state.text)}
                         >
                             Add
-                        </button>
-                        <button
-                            onClick={this.handleToggleMenu}
-                            className="btn not-add-btn menu-btn"
-                        >
-                            ...
                         </button>
                         {this.state.listOpen ? (
                             <div className="menu">
@@ -120,6 +125,13 @@ class NavBar extends React.Component<NavBarProps> {
                                     disabled={this.props.inactive}
                                 >
                                     Log Out
+                                </button>
+                                <br />
+                                <button
+                                    className="btn not-add-btn in-menu-btn"
+                                    onClick={this.handleToggleMenu}
+                                >
+                                    Back
                                 </button>
                             </div>
                         ) : (

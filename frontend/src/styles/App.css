@@ -19,6 +19,6 @@ body {
     background-repeat: repeat;
     top: 20%;
     min-height: 80%;
-    width: 100%;
+    min-width: 100%;
     position: absolute;
 }
