@@ -83,6 +83,22 @@
     box-shadow: none;
 }
 
+.navbar .menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.navbar .menu-btn {
+    width: 1cm;
+}
+
+.in-menu-btn {
+    margin: 5px;
+}
+
 .logout-div {
     position: fixed;
     right: 0cm;
