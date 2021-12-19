@@ -5,6 +5,7 @@
 }
 
 .task .check-box-wrapper {
+    margin-left: 1.8cm;
     height: 0.3cm;
     width: 0.3cm;
     display: flex;
@@ -37,8 +38,6 @@
 
 .task .delete-btn {
     position: relative;
-    right: 5cm;
-    margin-left: auto;
     background: transparent;
     border: transparent;
 }

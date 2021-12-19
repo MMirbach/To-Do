@@ -18,6 +18,12 @@ class Task extends React.Component<TaskProps> {
     render() {
         return (
             <div className="task">
+                <button
+                    className="delete-btn"
+                    onClick={() => this.props.onDelete(this.props.task.id)}
+                >
+                    <img src={bin} alt="delete" className="bin" />
+                </button>
                 <div
                     className={
                         this.props.task.checked
@@ -44,12 +50,6 @@ class Task extends React.Component<TaskProps> {
                 >
                     {this.props.task.description}
                 </span>
-                <button
-                    className="delete-btn"
-                    onClick={() => this.props.onDelete(this.props.task.id)}
-                >
-                    <img src={bin} alt="delete" className="bin" />
-                </button>
             </div>
         );
     }

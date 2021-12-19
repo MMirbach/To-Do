@@ -200,11 +200,13 @@ class App extends React.Component {
                     onClear={this.handleClear}
                     onLogout={this.handleLogout}
                 />
-                <Tasks
-                    tasks={this.state.tasks}
-                    onDelete={this.handleDelete}
-                    onToggle={this.handleToggle}
-                />
+                <div className="list-div">
+                    <Tasks
+                        tasks={this.state.tasks}
+                        onDelete={this.handleDelete}
+                        onToggle={this.handleToggle}
+                    />
+                </div>
             </div>
         );
     }

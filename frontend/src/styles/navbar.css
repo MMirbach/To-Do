@@ -1,16 +1,18 @@
 .header {
+    position: fixed;
+    top: 0;
     z-index: 1;
-    height: 145px;
+    height: 20%;
+    width: 100%;
     background: transparent;
+    background-image: url("../images/top.png");
+    display: flex;
+    align-items: center;
 }
 
 .navbar {
-    position: fixed;
-    top: 1cm;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-left: 6.5cm;
 }
 
 .navbar .text-box {
