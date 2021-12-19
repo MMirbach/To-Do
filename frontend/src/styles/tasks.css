@@ -1,13 +1,16 @@
 .list {
     list-style-type: none;
     position: relative;
-    top: -70px;
+    top: 0;
     margin-left: 5.5cm;
-    line-height: 0.7cm;
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .list-item {
     position: relative;
-    width: 100%;
+    margin-left: 5px;
+    height: 52px;
+    display: flex;
 }

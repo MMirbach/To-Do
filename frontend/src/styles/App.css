@@ -1,3 +1,24 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+#root {
+    height: 100%;
+}
+
 .app {
-    max-width: 80%;
+    height: 100%;
+}
+
+.list-div {
+    background-image: url("../images/row.png");
+    background-repeat: repeat;
+    top: 20%;
+    min-height: 80%;
+    min-width: 100%;
+    position: absolute;
 }
