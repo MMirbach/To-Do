@@ -14,6 +14,7 @@ interface AppState {
     currentUser: string;
     popup: messages;
     loggedIn: boolean;
+    isMenuOpen: boolean;
 }
 
 class App extends React.Component {
@@ -22,6 +23,7 @@ class App extends React.Component {
         currentUser: "",
         popup: messages.none,
         loggedIn: true,
+        isMenuOpen: false,
     };
 
     componentDidMount = async () => {
@@ -56,6 +58,11 @@ class App extends React.Component {
             );
             this.setState({ tasks });
         }
+    };
+
+    handleToggleMenu = (): void => {
+        var isMenuOpen = !this.state.isMenuOpen;
+        this.setState({ isMenuOpen });
     };
 
     handleReset = (): void => {
@@ -144,6 +151,7 @@ class App extends React.Component {
                 this.logout();
                 break;
         }
+        this.setState({ isMenuOpen: false });
     };
 
     updateCurrentUser = async (username: string) => {
@@ -194,11 +202,13 @@ class App extends React.Component {
                     numDoneTasks={
                         this.state.tasks.filter(t => t.checked).length
                     }
+                    isMenuOpen={this.state.isMenuOpen}
                     onAdd={this.handleAdd}
                     onReset={this.handleReset}
                     onDeleteDone={this.handleDeleteDone}
                     onClear={this.handleClear}
                     onLogout={this.handleLogout}
+                    onToggleMenu={this.handleToggleMenu}
                 />
                 <div className="list-div">
                     <Tasks

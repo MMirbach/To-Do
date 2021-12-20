@@ -35,6 +35,12 @@
     text-indent: 5px;
 }
 
+@media only screen and (max-width: 340px) {
+    .navbar .text-box {
+        max-width: 50%;
+    }
+}
+
 .navbar .text-box:focus {
     outline: none;
     box-shadow: 2px 2px 10px -1px black, -2px -2px 10px -1px black;
@@ -101,6 +107,12 @@
     position: fixed;
     text-align: center;
     padding-top: 140px;
+}
+
+@media only screen and (max-height: 425) {
+    .navbar .menu {
+        padding-top: 66px;
+    }
 }
 
 .navbar .menu-btn {
