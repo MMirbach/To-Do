@@ -59,11 +59,6 @@ class NavBar extends React.Component<NavBarProps> {
                             ...
                         </button>
                         <input
-                            style={
-                                this.state.windowWidth <= 340
-                                    ? { maxWidth: "50%" }
-                                    : {}
-                            }
                             className="text-box"
                             placeholder="Add Task"
                             autoFocus={true}
@@ -85,14 +80,7 @@ class NavBar extends React.Component<NavBarProps> {
                             Add
                         </button>
                         {this.props.isMenuOpen ? (
-                            <div
-                                className="menu"
-                                style={
-                                    window.innerHeight < 425
-                                        ? { paddingTop: "66px" }
-                                        : { paddingTop: "140px" }
-                                }
-                            >
+                            <div className="menu">
                                 <button
                                     className="btn not-add-btn in-menu-btn"
                                     onClick={this.props.onReset}
