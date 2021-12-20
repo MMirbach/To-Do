@@ -25,6 +25,11 @@ class NavBar extends React.Component<NavBarProps> {
         windowWidth: window.innerWidth,
     };
 
+    brIfLandscape = () => {
+        if (window.innerHeight < 425) return;
+        return <br />;
+    };
+
     handleResize = () => {
         this.setState({ windowWidth: window.innerWidth });
     };
@@ -80,7 +85,14 @@ class NavBar extends React.Component<NavBarProps> {
                             Add
                         </button>
                         {this.props.isMenuOpen ? (
-                            <div className="menu">
+                            <div
+                                className="menu"
+                                style={
+                                    window.innerHeight < 425
+                                        ? { paddingTop: "66px" }
+                                        : { paddingTop: "140px" }
+                                }
+                            >
                                 <button
                                     className="btn not-add-btn in-menu-btn"
                                     onClick={this.props.onReset}
@@ -91,7 +103,7 @@ class NavBar extends React.Component<NavBarProps> {
                                 >
                                     Reset Checked
                                 </button>
-                                <br />
+                                {this.brIfLandscape()}
                                 <button
                                     className="btn not-add-btn in-menu-btn"
                                     onClick={this.props.onDeleteDone}
@@ -113,7 +125,7 @@ class NavBar extends React.Component<NavBarProps> {
                                 >
                                     Clear
                                 </button>
-                                <br />
+                                {this.brIfLandscape()}
                                 <button
                                     className="btn not-add-btn in-menu-btn"
                                     onClick={this.props.onLogout}
