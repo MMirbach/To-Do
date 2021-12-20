@@ -5,22 +5,22 @@ interface NavBarProps {
     inactive: boolean;
     numTasks: number;
     numDoneTasks: number;
+    isMenuOpen: boolean;
     onAdd: (text: string) => void;
     onReset: () => void;
     onDeleteDone: () => void;
     onClear: () => void;
     onLogout: () => void;
+    onToggleMenu: () => void;
 }
 
 interface NavbarState {
-    listOpen: boolean;
     text: string;
     windowWidth: number;
 }
 
 class NavBar extends React.Component<NavBarProps> {
     state: NavbarState = {
-        listOpen: false,
         text: "",
         windowWidth: window.innerWidth,
     };
@@ -32,11 +32,6 @@ class NavBar extends React.Component<NavBarProps> {
     componentDidMount() {
         window.addEventListener("resize", this.handleResize);
     }
-
-    handleToggleMenu = (): void => {
-        var listOpen = !this.state.listOpen;
-        this.setState({ listOpen });
-    };
 
     handleText = (text: string): void => {
         this.setState({ text });
@@ -53,7 +48,7 @@ class NavBar extends React.Component<NavBarProps> {
                 <nav className="header">
                     <div className="navbar mobile">
                         <button
-                            onClick={this.handleToggleMenu}
+                            onClick={this.props.onToggleMenu}
                             className="btn not-add-btn menu-btn"
                         >
                             ...
@@ -84,7 +79,7 @@ class NavBar extends React.Component<NavBarProps> {
                         >
                             Add
                         </button>
-                        {this.state.listOpen ? (
+                        {this.props.isMenuOpen ? (
                             <div className="menu">
                                 <button
                                     className="btn not-add-btn in-menu-btn"
@@ -129,7 +124,7 @@ class NavBar extends React.Component<NavBarProps> {
                                 <br />
                                 <button
                                     className="btn not-add-btn in-menu-btn"
-                                    onClick={this.handleToggleMenu}
+                                    onClick={this.props.onToggleMenu}
                                 >
                                     Back
                                 </button>
