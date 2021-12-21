@@ -15,7 +15,7 @@ def get_user_info(update, context):
 def get_username(update, context):
     username = update.message.text
     params = {'username': username}
-    res = requests.get('http://localhost:3001/api/checkUsername', params=encodeDict(params))
+    res = requests.get('http://132.69.8.12:443/api/checkUsername', params=encodeDict(params))
     if res.text == 'true':
         context.user_data['username'] = username
         update.message.reply_text("Please enter your password")
@@ -30,7 +30,7 @@ def get_password(update, context):
     password = update.message.text
     username = context.user_data['username']
     params = {'username': username, 'password':password}
-    res = requests.get('http://localhost:3001/api/login', params=encodeDict(params))
+    res = requests.get('http://132.69.8.12:443/api/login', params=encodeDict(params))
 
     #  check if this user-password combo is correct
     if res.text == 'true':
@@ -46,7 +46,7 @@ def handle_message(update, context):
     username = context.user_data['username']
     text = update.message.text
     params = {'username':username, 'description':text}
-    requests.post('http://localhost:3001/api/add', data=encodeDict(params))
+    requests.post('http://132.69.8.12:443/api/add', data=encodeDict(params))
     update.message.reply_text(f"Added {text} to your to-do list")
 
 
