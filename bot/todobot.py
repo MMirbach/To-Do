@@ -14,13 +14,10 @@ def get_user_info(update, context):
 
 def get_username(update, context):
     username = update.message.text
-    #  check for username in db
-    payload = {'username': username}
-    res = requests.get('http://localhost:3001/api/checkUsername', params=encodeDict(payload))
-    #  res.text has the return value in string form (weird)
+    params = {'username': username}
+    res = requests.get('http://localhost:3001/api/checkUsername', params=encodeDict(params))
     print(res.text)
-    print(type(res.text))
-    if username == 'admin':  # for now I assume admin is the only user
+    if res.text == 'true':
         context.user_data['username'] = username
         update.message.reply_text("Please enter your password")
         return EXPECT_PASSWORD
@@ -33,12 +30,15 @@ def get_username(update, context):
 def get_password(update, context):
     password = update.message.text
     username = context.user_data['username']
+    params = {'username': username, 'password':password}
+    res = requests.get('http://localhost:3001/api/login', params=encodeDict(params))
 
     #  check if this user-password combo is correct
-    if username == 'admin' and password == 'admin':
+    if res.text == 'true':
         update.message.reply_text("You are now connected, enjoy!")
         return ConversationHandler.END
     else:
+        del context.user_data['username']
         update.message.reply_text("That password is incorrect, Please re-enter your username")
         return EXPECT_USERNAME
 

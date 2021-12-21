@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const { Pool } = require("pg");
 const cors = require("cors");
 const coder = require("../frontend/src/coder.jsx");
@@ -12,6 +11,7 @@ const db = new Pool({
     port: 5432,
 });
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -120,20 +120,21 @@ app.put("/api/toggle", (req, res) => {
 app.get("/api/checkUsername", (req, res) => {
     const decoded = coder.decode(req.query);
 
-    console.log(req.query);
     console.log(decoded);
-    res.send(1 > 0);
 
-    // const sqlSelect = "select * from users where username = $1;";
-    // const values = [decoded.username];
+    const sqlSelect = "select * from users where username = $1;";
+    const values = [decoded.username];
 
-    // db.query(sqlSelect, values, (err, result) => {
-    //     if (!err) res.send(result.rowCount > 0);
-    //     else {
-    //         console.log(err.message + " error code: " + err.code);
-    //         res.send();
-    //     }
-    // });
+    db.query(sqlSelect, values, (err, result) => {
+        if (!err) {
+            console.log(result);
+            console.log(result.rowCount);
+            res.send(result.rowCount > 0);
+        } else {
+            console.log(err.message + " error code: " + err.code);
+            res.send();
+        }
+    });
 });
 
 app.get("/api/login", (req, res) => {
