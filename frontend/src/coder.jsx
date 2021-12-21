@@ -1,13 +1,13 @@
-const crypto = require("crypto-js");
+// const crypto = require("crypto-js");
 
 const encodeString = base => {
-    return crypto.AES.encrypt(base, "matanreut").toString();
-    //return Buffer.from(base).toString("base64");
+    // return crypto.AES.encrypt(base, "matanreut").toString();
+    return Buffer.from(base).toString("base64");
 };
 
 const decodeString = encoded => {
-    return crypto.AES.decrypt(encoded, "matanreut").toString(crypto.enc.Utf8);
-    //return Buffer.from(decoded, "base64").toString("ascii");
+    // return crypto.AES.decrypt(encoded, "matanreut").toString(crypto.enc.Utf8);
+    return Buffer.from(encoded, "base64").toString("ascii");
 };
 
 const encodeObject = base => {

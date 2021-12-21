@@ -6,6 +6,7 @@ import Tasks from "./components/tasks";
 import NavBar from "./components/navbar";
 import Popup, { messages } from "./components/popup";
 import Login from "./components/login";
+import { decode } from "./coder";
 
 const coder = require("./coder");
 
@@ -42,21 +43,23 @@ class App extends React.Component {
 
     handleAdd = async (text: string) => {
         if (text) {
-            const tasks = [...this.state.tasks];
-            const newTask: TaskTemplate = {
-                id: this.maxId() + 1,
-                description: text,
-                checked: false,
-            };
-            tasks.push(newTask);
             await Axios.post(
                 "http://132.69.8.12:443/api/add",
                 coder.encode({
-                    task: newTask,
+                    description: text,
                     username: this.state.currentUser,
                 })
-            );
-            this.setState({ tasks });
+            ).then(res => {
+                const decoded = decode(res.data);
+                const tasks = [...this.state.tasks];
+                const newTask: TaskTemplate = {
+                    id: decoded["id"],
+                    description: text,
+                    checked: false,
+                };
+                tasks.push(newTask);
+                this.setState({ tasks });
+            });
         }
     };
 
@@ -155,7 +158,7 @@ class App extends React.Component {
     };
 
     updateCurrentUser = async (username: string) => {
-        await Axios.get("http://132.69.8.12:443/api/get", {
+        await Axios.get("http://132.69.8.12:443/api/getTasks", {
             params: coder.encode({ username: username }),
         }).then(response => {
             this.setState({
