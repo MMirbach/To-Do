@@ -117,6 +117,25 @@ app.put("/api/toggle", (req, res) => {
     res.send();
 });
 
+app.get("/api/checkUsername", (req, res) => {
+    const decoded = coder.decode(req.query);
+
+    console.log(req.query);
+    console.log(decoded);
+    res.send(1 > 0);
+
+    // const sqlSelect = "select * from users where username = $1;";
+    // const values = [decoded.username];
+
+    // db.query(sqlSelect, values, (err, result) => {
+    //     if (!err) res.send(result.rowCount > 0);
+    //     else {
+    //         console.log(err.message + " error code: " + err.code);
+    //         res.send();
+    //     }
+    // });
+});
+
 app.get("/api/login", (req, res) => {
     const decoded = coder.decode(req.query);
 
