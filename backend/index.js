@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.listen(3001, () => {});
 
-app.get("/api/get", (req, res) => {
+app.get("/api/getTasks", (req, res) => {
     const decoded = coder.decode(req.query);
 
     const sqlSelect = "select * from tasks where username = $1 order by id;";
@@ -33,22 +33,22 @@ app.get("/api/get", (req, res) => {
     });
 });
 
-app.post("/api/add", (req, res) => {
+app.post("/api/add", async (req, res) => {
+    const sqlSelect = "select max(id) from tasks";
+    const res_max = await db.query(sqlSelect);
+    var id = res_max.rows[0]["max"];
+    id = id === null ? 0 : id + 1;
+
     const decoded = coder.decode(req.body);
 
     const sqlInsert = "insert into tasks values ($1,$2,$3,$4);";
-    const values = [
-        decoded.username,
-        decoded.task.id,
-        decoded.task.description,
-        decoded.task.checked,
-    ];
+    const values = [decoded.username, id, decoded.description, false];
 
     db.query(sqlInsert, values, (err, result) => {
         if (err) console.log(err.message + " error code: " + err.code);
     });
 
-    res.send();
+    res.send(coder.encode({ id: id }));
 });
 
 app.put("/api/reset", (req, res) => {
@@ -120,17 +120,12 @@ app.put("/api/toggle", (req, res) => {
 app.get("/api/checkUsername", (req, res) => {
     const decoded = coder.decode(req.query);
 
-    console.log(decoded);
-
     const sqlSelect = "select * from users where username = $1;";
     const values = [decoded.username];
 
     db.query(sqlSelect, values, (err, result) => {
-        if (!err) {
-            console.log(result);
-            console.log(result.rowCount);
-            res.send(result.rowCount > 0);
-        } else {
+        if (!err) res.send(result.rowCount > 0);
+        else {
             console.log(err.message + " error code: " + err.code);
             res.send();
         }
