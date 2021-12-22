@@ -1,6 +1,10 @@
 from telegram.ext import *
 from coder import encodeDict
-import requests
+import requests, os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+API_KEY = os.environ.get("API_KEY")
 
 EXPECT_USERNAME, EXPECT_PASSWORD = range(2)
 
