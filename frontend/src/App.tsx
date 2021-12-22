@@ -34,13 +34,6 @@ class App extends React.Component {
         else this.updateCurrentUser(coder.decode(username));
     };
 
-    maxId = (): number => {
-        return this.state.tasks.reduce(
-            (max, character) => (character.id > max ? character.id : max),
-            0
-        );
-    };
-
     handleAdd = async (text: string) => {
         if (text) {
             await Axios.post(
