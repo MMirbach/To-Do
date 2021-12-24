@@ -50,7 +50,7 @@ def get_username(update, context):
     else:
         update.message.reply_text(
             f"Sorry, I don't know anyone called {username}, please tell me your active username or "
-            "go to http://132.69.8.12 to create a one and come back to tell me"
+            "go to http://132.69.8.12 to create one and come back to tell me"
         )
         return EXPECT_USERNAME
 
