@@ -78,10 +78,10 @@ def main():
         entry_points=[CommandHandler("start", get_user_info, run_async=True),
                       MessageHandler(Filters.text, handle_message, run_async=True)],
         states={
-               EXPECT_USERNAME: [MessageHandler(Filters.text, get_username)],
-               EXPECT_PASSWORD: [MessageHandler(Filters.text, get_password)]
+               EXPECT_USERNAME: [MessageHandler(Filters.text, get_username, run_async=True)],
+               EXPECT_PASSWORD: [MessageHandler(Filters.text, get_password, run_async=True)]
             },
-        fallbacks=[MessageHandler(~Filters.text & ~Filters.command, badCredentials)], run_async=True))
+        fallbacks=[MessageHandler(~Filters.text & ~Filters.command, badCredentials, run_async=True)], run_async=True))
     dp.add_handler(MessageHandler(~Filters.text & ~Filters.command, unsupported, run_async=True))
     updater.start_polling()
     updater.idle()
