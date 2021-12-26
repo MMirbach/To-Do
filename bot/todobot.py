@@ -74,13 +74,15 @@ def badCredentials(update, context):
 def main():
     updater = Updater(API_KEY, use_context=True)
     dp = updater.dispatcher
-    dp.add_handler(ConversationHandler(entry_points=[CommandHandler("start", get_user_info),
-                                                     MessageHandler(Filters.text, handle_message)],
-                                       states={
-                                           EXPECT_USERNAME: [MessageHandler(Filters.text, get_username)],
-                                           EXPECT_PASSWORD: [MessageHandler(Filters.text, get_password)]
-                                       }, fallbacks=[MessageHandler(~Filters.text & ~Filters.command, badCredentials)]))
-    dp.add_handler(MessageHandler(~Filters.text & ~Filters.command, unsupported))
+    dp.add_handler(ConversationHandler(
+        entry_points=[CommandHandler("start", get_user_info, run_async=True),
+                      MessageHandler(Filters.text, handle_message, run_async=True)],
+        states={
+               EXPECT_USERNAME: [MessageHandler(Filters.text, get_username)],
+               EXPECT_PASSWORD: [MessageHandler(Filters.text, get_password)]
+            },
+        fallbacks=[MessageHandler(~Filters.text & ~Filters.command, badCredentials)], run_async=True))
+    dp.add_handler(MessageHandler(~Filters.text & ~Filters.command, unsupported, run_async=True))
     updater.start_polling()
     updater.idle()
 
