@@ -3,7 +3,7 @@ from coder import encodeDict
 import requests, os
 from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
+load_dotenv()
 API_KEY = os.environ.get("API_KEY")
 
 EXPECT_USERNAME, EXPECT_PASSWORD = range(2)
