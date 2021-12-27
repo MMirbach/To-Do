@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+print(os.environ)
 
 EXPECT_USERNAME, EXPECT_PASSWORD = range(2)
 
