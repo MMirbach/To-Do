@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const express = require("express");
 const { Pool } = require("pg");
 const cors = require("cors");
@@ -132,27 +133,26 @@ app.get("/api/checkUsername", (req, res) => {
     });
 });
 
-app.get("/api/login", (req, res) => {
+app.get("/api/login", async (req, res) => {
     const decoded = coder.decode(req.query);
 
-    const sqlSelect =
-        "select * from users where username = $1 and password = $2;";
-    const values = [decoded.username, decoded.password];
+    const sqlSelectPassword = "select password from users where username = $1";
+    const query_res = await db.query(sqlSelectPassword, [decoded.username]);
 
-    db.query(sqlSelect, values, (err, result) => {
-        if (!err) res.send(result.rowCount > 0);
-        else {
-            console.log(err.message + " error code: " + err.code);
-            res.send();
-        }
-    });
+    if (query_res.rowCount === 0) res.send(false);
+    else {
+        const hash = query_res.rows[0]["password"];
+        const result = bcrypt.compareSync(decoded.password, hash);
+        res.send(result);
+    }
 });
 
 app.post("/api/signup", (req, res) => {
     const decoded = coder.decode(req.body);
 
     const sqlInsert = "insert into users values ($1,$2);";
-    const values = [decoded.username, decoded.password];
+    const hash = bcrypt.hashSync(decoded.password, 10);
+    const values = [decoded.username, hash];
 
     db.query(sqlInsert, values, (err, result) => {
         if (err) {
