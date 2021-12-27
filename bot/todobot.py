@@ -24,7 +24,7 @@ def handle_message(update, context):
         username = context.user_data["username"]
         text = update.message.text
         params = {"username": username, "description": text}
-        requests.post("http://localhost:3001/api/add", data=encodeDict(params))
+        requests.post("http://132.69.8.12:443/api/add", data=encodeDict(params))
         update.message.reply_text("Added " + "\U0001F44D")
         return ConversationHandler.END
     update.message.reply_text(
