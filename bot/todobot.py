@@ -92,7 +92,7 @@ def badCredentials(update, context):
 
 
 def main():
-    updater = Updater(API_KEY, use_context=True)
+    updater = Updater(token=API_KEY, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(
         ConversationHandler(
