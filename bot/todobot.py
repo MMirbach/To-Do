@@ -3,7 +3,7 @@ from coder import encodeDict
 import requests, os
 from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
 EXPECT_USERNAME, EXPECT_PASSWORD = range(2)
@@ -92,7 +92,6 @@ def badCredentials(update, context):
 
 
 def main():
-    print(API_KEY)
     updater = Updater(token=API_KEY, use_context=True)
     dp = updater.dispatcher
     dp.add_handler(
