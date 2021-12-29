@@ -39,23 +39,32 @@ class Login extends React.Component<LoginProps> {
     };
 
     handleLogin = async () => {
-        const user = {
+        if(this.state.username && this.state.password){
+            const user = {
             username: this.state.username,
             password: this.state.password,
-        };
+            };
 
-        const response = await axios.get("http://localhost:3001/api/login", {
-            params: coder.encode(user),
-        });
+            const response = await axios.get("http://localhost:3001/api/login", {
+                params: coder.encode(user),
+            });
 
-        let warning = warnings.none;
-        if (response.data) {
-            localStorage.setItem("user", coder.encode(this.state.username));
-            this.props.onLogin(this.state.username);
-        } else if (response.data === false) warning = warnings.wrong;
-        else warning = warnings.unknown;
+            let warning = warnings.none;
+            if (response.data) {
+                localStorage.setItem("user", coder.encode(this.state.username));
+                this.props.onLogin(this.state.username);
+            } else if (response.data === false) warning = warnings.wrong;
+            else warning = warnings.unknown;
 
-        this.setState({ username: "", password: "", error: warning });
+            this.setState({ username: "", password: "", error: warning });
+        }else{
+            this.setState({
+                username: "",
+                password: "",
+                error: warnings.empty,
+            });
+        }
+        
     };
 
     handleSignUp = async () => {
@@ -68,26 +77,26 @@ class Login extends React.Component<LoginProps> {
                 password: "",
                 error: warnings.empty,
             });
+        } else{
+            let warning = warnings.none;
+            const user = {
+                username: this.state.username,
+                password: this.state.password,
+            };
+
+            const response = await axios.post(
+                "http://localhost:3001/api/signup",
+                coder.encode(user)
+            );
+
+            if (response.data) {
+                localStorage.setItem("user", this.state.username);
+                this.props.onLogin(this.state.username);
+            } else if (response.data === false) {
+                warning = warnings.exists;
+            } else warning = warnings.unknown;
+            this.setState({ username: "", password: "", error: warning });
         }
-
-        let warning = warnings.none;
-        const user = {
-            username: this.state.username,
-            password: this.state.password,
-        };
-
-        const response = await axios.post(
-            "http://localhost:3001/api/signup",
-            coder.encode(user)
-        );
-
-        if (response.data) {
-            localStorage.setItem("user", this.state.username);
-            this.props.onLogin(this.state.username);
-        } else if (response.data === false) {
-            warning = warnings.exists;
-        } else warning = warnings.unknown;
-        this.setState({ username: "", password: "", error: warning });
     };
 
     render() {
