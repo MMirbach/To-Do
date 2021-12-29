@@ -39,7 +39,7 @@ class Login extends React.Component<LoginProps> {
     };
 
     handleLogin = async () => {
-        if(this.state.username && this.state.password){
+        if(this.state.username.length!==0 && this.state.password.length!==0){
             const user = {
             username: this.state.username,
             password: this.state.password,
