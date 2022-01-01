@@ -22,7 +22,8 @@ def handle_message(update, context):
         text = update.message.text
         params = {'username': username, 'description': text}
         requests.post('http://localhost:3001/api/add', data=encodeDict(params))
-        update.message.reply_text("Added " + u"\U0001F44D")
+        update.message.reply_text("Added " + u"\U0001F44D" + "\nyour to-do list - http://132.69.8.12/")
+        update.message.reply_text("and just a reminder.. send me the task and I'll add it to the to-do list, it's as simple as that")
         return ConversationHandler.END
     update.message.reply_text("Oh man, looks like our connection was lost " + u"\U0001F62D" +
                               "\nPlease send your username again")
@@ -51,7 +52,8 @@ def get_password(update, context):
 
     #  check if this user-password combo is correct
     if res.text == 'true':
-        update.message.reply_text("Yay, we're now connected, enjoy!")
+        update.message.reply_text("Yay, we're now connected!")
+        update.message.reply_text("what task do you want to add to your to-do list?")
         return ConversationHandler.END
     else:
         del context.user_data['username']
