@@ -47,6 +47,13 @@ class NavBar extends React.Component<NavBarProps> {
         this.props.onAdd(text);
     };
 
+    handleOutsideClick = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ): void => {
+        if (e.target.toString() === "[object HTMLDivElement]")
+            this.props.onToggleMenu();
+    };
+
     render() {
         if (this.state.windowWidth <= 950)
             return (
@@ -80,7 +87,10 @@ class NavBar extends React.Component<NavBarProps> {
                             Add
                         </button>
                         {this.props.isMenuOpen ? (
-                            <div className="menu">
+                            <div
+                                className="menu"
+                                onClick={e => this.handleOutsideClick(e)}
+                            >
                                 <button
                                     className="btn not-add-btn in-menu-btn"
                                     onClick={this.props.onReset}
@@ -122,12 +132,6 @@ class NavBar extends React.Component<NavBarProps> {
                                     Log Out
                                 </button>
                                 <br />
-                                <button
-                                    className="btn not-add-btn in-menu-btn"
-                                    onClick={this.props.onToggleMenu}
-                                >
-                                    Back
-                                </button>
                             </div>
                         ) : (
                             ""
