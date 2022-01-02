@@ -11,7 +11,7 @@ EXPECT_USERNAME, EXPECT_PASSWORD = range(2)
 
 def get_user_info(update, context):
     update.message.reply_text("Hi there " + u"\U0001F44B" + "\nI'm Teddi, the to-do bot. "
-                              "I can add tasks to your to-do list if you trust me " + u"\U0001F609" +
+                              "I can add tasks to your to-do list at http://132.69.8.12 if you trust me " + u"\U0001F609" +
                               "\nWhat's your username?")
     return EXPECT_USERNAME
 
@@ -22,8 +22,7 @@ def handle_message(update, context):
         text = update.message.text
         params = {'username': username, 'description': text}
         requests.post('http://localhost:3001/api/add', data=encodeDict(params))
-        update.message.reply_text("Added " + u"\U0001F44D" + "\nyour to-do list - http://132.69.8.12/")
-        update.message.reply_text("and just a reminder.. send me the task and I'll add it to the to-do list, it's as simple as that")
+        update.message.reply_text("Added to your list at http://132.69.8.12/ " + u"\U0001F44D")
         return ConversationHandler.END
     update.message.reply_text("Oh man, looks like our connection was lost " + u"\U0001F62D" +
                               "\nPlease send your username again")
@@ -52,8 +51,7 @@ def get_password(update, context):
 
     #  check if this user-password combo is correct
     if res.text == 'true':
-        update.message.reply_text("Yay, we're now connected!")
-        update.message.reply_text("what task do you want to add to your to-do list?")
+        update.message.reply_text("Yay, we're now connected!\nAnything you tell me I'll add to your to do list")
         return ConversationHandler.END
     else:
         del context.user_data['username']
