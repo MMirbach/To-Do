@@ -16,6 +16,7 @@ interface AppState {
     popup: messages;
     loggedIn: boolean;
     isMenuOpen: boolean;
+    deletedStack: string[];
 }
 
 class App extends React.Component {
@@ -25,6 +26,7 @@ class App extends React.Component {
         popup: messages.none,
         loggedIn: true,
         isMenuOpen: false,
+        deletedStack: [],
     };
 
     componentDidMount = async () => {
@@ -92,7 +94,7 @@ class App extends React.Component {
         await Axios.delete("http://132.69.8.12:443/api/deleteDone", {
             data: coder.encode({ username: this.state.currentUser }),
         });
-        this.setState({ tasks: tasks, popup: messages.none });
+        this.setState({ tasks: tasks, popup: messages.none, deletedStack: [] });
     };
 
     handleClear = (): void => {
@@ -105,15 +107,18 @@ class App extends React.Component {
         await Axios.delete("http://132.69.8.12:443/api/clear", {
             data: coder.encode({ username: this.state.currentUser }),
         });
-        this.setState({ tasks: [], popup: messages.none });
+        this.setState({ tasks: [], popup: messages.none, deletedStack: [] });
     };
 
     handleDelete = async (id: number) => {
+        const task = this.state.tasks.filter(t => t.id === id)[0];
         const tasks = this.state.tasks.filter(t => t.id !== id);
+        var stack = [...this.state.deletedStack];
+        stack.push(task.description);
         await Axios.delete("http://132.69.8.12:443/api/delete", {
             data: coder.encode({ id: id }),
         });
-        this.setState({ tasks });
+        this.setState({ tasks: tasks, deletedStack: stack });
     };
 
     handleToggle = async (id: number) => {
@@ -150,6 +155,15 @@ class App extends React.Component {
         this.setState({ isMenuOpen: false });
     };
 
+    refresh = () => {
+        if (this.state.loggedIn) {
+            setTimeout(
+                () => this.updateCurrentUser(this.state.currentUser),
+                60000
+            );
+        }
+    };
+
     updateCurrentUser = async (username: string) => {
         await Axios.get("http://132.69.8.12:443/api/getTasks", {
             params: coder.encode({ username: username }),
@@ -159,6 +173,7 @@ class App extends React.Component {
                 currentUser: username,
                 loggedIn: true,
             });
+            this.refresh();
         });
     };
 
@@ -176,6 +191,13 @@ class App extends React.Component {
             popup: messages.none,
             loggedIn: false,
         });
+    };
+
+    handleRestore = (): void => {
+        var stack = [...this.state.deletedStack];
+        const lastDeleted = stack.pop();
+        if (lastDeleted) this.handleAdd(lastDeleted);
+        this.setState({ deletedStack: stack });
     };
 
     render() {
@@ -198,6 +220,7 @@ class App extends React.Component {
                     numDoneTasks={
                         this.state.tasks.filter(t => t.checked).length
                     }
+                    stackSize={this.state.deletedStack.length}
                     isMenuOpen={this.state.isMenuOpen}
                     onAdd={this.handleAdd}
                     onReset={this.handleReset}
@@ -205,6 +228,7 @@ class App extends React.Component {
                     onClear={this.handleClear}
                     onLogout={this.handleLogout}
                     onToggleMenu={this.handleToggleMenu}
+                    onRestore={this.handleRestore}
                 />
                 <div className="list-div">
                     <Tasks

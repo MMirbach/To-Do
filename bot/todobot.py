@@ -10,12 +10,9 @@ EXPECT_USERNAME, EXPECT_PASSWORD = range(2)
 
 
 def get_user_info(update, context):
-    update.message.reply_text(
-        "Hi there " + "\U0001F44B" + "\nI'm Teddi, the to-do bot. "
-        "I can add tasks to your to-do list if you trust me "
-        + "\U0001F609"
-        + "\nWhat's your username?"
-    )
+    update.message.reply_text("Hi there " + u"\U0001F44B" + "\nI'm Teddi, the to-do bot. "
+                              "I can add tasks to your to-do list at http://132.69.8.12 if you trust me " + u"\U0001F609" +
+                              "\nWhat's your username?")
     return EXPECT_USERNAME
 
 
@@ -62,8 +59,8 @@ def get_password(update, context):
     res = requests.get("http://132.69.8.12:443/api/login", params=encodeDict(params))
 
     #  check if this user-password combo is correct
-    if res.text == "true":
-        update.message.reply_text("Yay, we're now connected, enjoy!")
+    if res.text == 'true':
+        update.message.reply_text("Yay, we're now connected!\nAnything you tell me I'll add to your to do list")
         return ConversationHandler.END
     else:
         del context.user_data["username"]
