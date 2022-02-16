@@ -5,6 +5,7 @@ interface NavBarProps {
     inactive: boolean;
     numTasks: number;
     numDoneTasks: number;
+    stackSize: number;
     isMenuOpen: boolean;
     onAdd: (text: string) => void;
     onReset: () => void;
@@ -12,6 +13,7 @@ interface NavBarProps {
     onClear: () => void;
     onLogout: () => void;
     onToggleMenu: () => void;
+    onRestore: () => void;
 }
 
 interface NavbarState {
@@ -55,7 +57,7 @@ class NavBar extends React.Component<NavBarProps> {
     };
 
     render() {
-        if (this.state.windowWidth <= 950)
+        if (this.state.windowWidth <= 1125)
             return (
                 <nav className="header">
                     <div className="navbar mobile">
@@ -126,6 +128,14 @@ class NavBar extends React.Component<NavBarProps> {
                                 {this.brIfLandscape()}
                                 <button
                                     className="btn not-add-btn in-menu-btn"
+                                    onClick={this.props.onRestore}
+                                    disabled={!this.props.stackSize}
+                                >
+                                    Restore
+                                </button>
+                                <br />
+                                <button
+                                    className="btn not-add-btn in-menu-btn"
                                     onClick={this.props.onLogout}
                                     disabled={this.props.inactive}
                                 >
@@ -190,6 +200,13 @@ class NavBar extends React.Component<NavBarProps> {
                             }
                         >
                             Clear
+                        </button>
+                        <button
+                            className="btn not-add-btn"
+                            onClick={this.props.onRestore}
+                            disabled={!this.props.stackSize}
+                        >
+                            Restore
                         </button>
                     </div>
                     <div className="logout-div">
