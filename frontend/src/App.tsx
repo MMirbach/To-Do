@@ -157,10 +157,10 @@ class App extends React.Component {
 
     refresh = () => {
         if (this.state.loggedIn) {
-            setTimeout(
-                () => this.updateCurrentUser(this.state.currentUser),
-                60000
-            );
+            setTimeout(() => {
+                if (this.state.loggedIn)
+                    this.updateCurrentUser(this.state.currentUser);
+            }, 60000);
         }
     };
 
@@ -190,6 +190,7 @@ class App extends React.Component {
             currentUser: "",
             popup: messages.none,
             loggedIn: false,
+            deletedStack: [],
         });
     };
 
